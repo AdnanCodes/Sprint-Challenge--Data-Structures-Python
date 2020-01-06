@@ -44,4 +44,26 @@ class LinkedList:
 
   def reverse_list(self):
     # TO BE COMPLETED
-    pass
+    
+    #track the current node
+    current = self.head
+    #track the previous node when current moves
+    previous = None
+
+    #set next pointer after current and check for empty list
+    if current:
+        next_to_reverse = current.get_next()
+
+    #Current needs to move through and flip the pointers to previous
+
+    while current != None:
+        #Switch pointers
+        current.set_next(previous)
+        previous = current
+        current = next_to_reverse
+        #check if next node exists otherwise it is end of list
+        if next_to_reverse != None:
+            next_to_reverse = next_to_reverse.get_next()
+      
+    #After loop completes, previous will have last node isn't pointed backwards 
+    self.head = previous
