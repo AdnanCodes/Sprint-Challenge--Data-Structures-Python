@@ -1,0 +1,64 @@
+c5ff0816 (Adnan Chowdhury 2020-02-11 09:51:40 -0600  1) from doubly_linked_list import DoublyLinkedList
+c5ff0816 (Adnan Chowdhury 2020-02-11 09:51:40 -0600  2) 
+c5ff0816 (Adnan Chowdhury 2020-02-11 09:51:40 -0600  3) 
+c5ff0816 (Adnan Chowdhury 2020-02-11 09:51:40 -0600  4) class RingBuffer:
+c5ff0816 (Adnan Chowdhury 2020-02-11 09:51:40 -0600  5)     def __init__(self, capacity):
+c5ff0816 (Adnan Chowdhury 2020-02-11 09:51:40 -0600  6)         self.capacity = capacity
+c5ff0816 (Adnan Chowdhury 2020-02-11 09:51:40 -0600  7)         self.current = None
+c5ff0816 (Adnan Chowdhury 2020-02-11 09:51:40 -0600  8)         self.storage = DoublyLinkedList()
+c5ff0816 (Adnan Chowdhury 2020-02-11 09:51:40 -0600  9) 
+c5ff0816 (Adnan Chowdhury 2020-02-11 09:51:40 -0600 10)     def append(self, item):
+c5ff0816 (Adnan Chowdhury 2020-02-11 09:51:40 -0600 11)         #Add new nodes to buffer
+c5ff0816 (Adnan Chowdhury 2020-02-11 09:51:40 -0600 12)         #Nodes cannot exceed capacity, so size of DDLs must be at capacity
+c5ff0816 (Adnan Chowdhury 2020-02-11 09:51:40 -0600 13)         
+c5ff0816 (Adnan Chowdhury 2020-02-11 09:51:40 -0600 14) 
+c5ff0816 (Adnan Chowdhury 2020-02-11 09:51:40 -0600 15)         #Do this when Buffer is under limit
+c5ff0816 (Adnan Chowdhury 2020-02-11 09:51:40 -0600 16) 
+c5ff0816 (Adnan Chowdhury 2020-02-11 09:51:40 -0600 17)         if self.storage.length < self.capacity:
+c5ff0816 (Adnan Chowdhury 2020-02-11 09:51:40 -0600 18)         #Check if head is empty to start
+c5ff0816 (Adnan Chowdhury 2020-02-11 09:51:40 -0600 19)             if self.storage.head == None:
+c5ff0816 (Adnan Chowdhury 2020-02-11 09:51:40 -0600 20)                 self.storage.add_to_head(item)
+c5ff0816 (Adnan Chowdhury 2020-02-11 09:51:40 -0600 21)                 self.current = self.storage.head #To track current node
+c5ff0816 (Adnan Chowdhury 2020-02-11 09:51:40 -0600 22)             else:
+c5ff0816 (Adnan Chowdhury 2020-02-11 09:51:40 -0600 23)             #Add to tail otherwise
+c5ff0816 (Adnan Chowdhury 2020-02-11 09:51:40 -0600 24)                 self.storage.add_to_tail(item)
+c5ff0816 (Adnan Chowdhury 2020-02-11 09:51:40 -0600 25)                 self.current = self.storage.head
+c5ff0816 (Adnan Chowdhury 2020-02-11 09:51:40 -0600 26)         else:
+c5ff0816 (Adnan Chowdhury 2020-02-11 09:51:40 -0600 27)         #Buffer will become full, need to add items from oldest
+c5ff0816 (Adnan Chowdhury 2020-02-11 09:51:40 -0600 28)         #After it will start adding items at the head (oldest items start)
+c5ff0816 (Adnan Chowdhury 2020-02-11 09:51:40 -0600 29)             if self.current.next == None: #when last item is reached again
+c5ff0816 (Adnan Chowdhury 2020-02-11 09:51:40 -0600 30) 
+c5ff0816 (Adnan Chowdhury 2020-02-11 09:51:40 -0600 31)                 #Update the last item with new item and move pointer back to head, start the process again
+c5ff0816 (Adnan Chowdhury 2020-02-11 09:51:40 -0600 32)                 self.current.value = item
+c5ff0816 (Adnan Chowdhury 2020-02-11 09:51:40 -0600 33)                 self.current = self.storage.head
+c5ff0816 (Adnan Chowdhury 2020-02-11 09:51:40 -0600 34)                 #update position of self.current to the head
+c5ff0816 (Adnan Chowdhury 2020-02-11 09:51:40 -0600 35)             else:#
+c5ff0816 (Adnan Chowdhury 2020-02-11 09:51:40 -0600 36)                 self.current.value = item #replace the value and move to next
+c5ff0816 (Adnan Chowdhury 2020-02-11 09:51:40 -0600 37)                 #move the current to next node
+c5ff0816 (Adnan Chowdhury 2020-02-11 09:51:40 -0600 38)                 self.current = self.current.next
+c5ff0816 (Adnan Chowdhury 2020-02-11 09:51:40 -0600 39)         #Storage capacity will be reached then then will 
+c5ff0816 (Adnan Chowdhury 2020-02-11 09:51:40 -0600 40) 
+c5ff0816 (Adnan Chowdhury 2020-02-11 09:51:40 -0600 41)     def get(self):
+c5ff0816 (Adnan Chowdhury 2020-02-11 09:51:40 -0600 42)         # Note:  This is the only [] allowed
+c5ff0816 (Adnan Chowdhury 2020-02-11 09:51:40 -0600 43)         list_buffer_contents = []
+c5ff0816 (Adnan Chowdhury 2020-02-11 09:51:40 -0600 44) 
+c5ff0816 (Adnan Chowdhury 2020-02-11 09:51:40 -0600 45)         # TODO: Your code here
+c5ff0816 (Adnan Chowdhury 2020-02-11 09:51:40 -0600 46)         #Start at head and append until current pointer has nothing 
+c5ff0816 (Adnan Chowdhury 2020-02-11 09:51:40 -0600 47)         current = self.storage.head
+c5ff0816 (Adnan Chowdhury 2020-02-11 09:51:40 -0600 48)         while (current != None):
+c5ff0816 (Adnan Chowdhury 2020-02-11 09:51:40 -0600 49)             list_buffer_contents.append(current.value)
+c5ff0816 (Adnan Chowdhury 2020-02-11 09:51:40 -0600 50)             current = current.next
+c5ff0816 (Adnan Chowdhury 2020-02-11 09:51:40 -0600 51)         return list_buffer_contents
+c5ff0816 (Adnan Chowdhury 2020-02-11 09:51:40 -0600 52) 
+c5ff0816 (Adnan Chowdhury 2020-02-11 09:51:40 -0600 53) # ----------------Stretch Goal-------------------
+c5ff0816 (Adnan Chowdhury 2020-02-11 09:51:40 -0600 54) 
+c5ff0816 (Adnan Chowdhury 2020-02-11 09:51:40 -0600 55) 
+c5ff0816 (Adnan Chowdhury 2020-02-11 09:51:40 -0600 56) class ArrayRingBuffer:
+c5ff0816 (Adnan Chowdhury 2020-02-11 09:51:40 -0600 57)     def __init__(self, capacity):
+c5ff0816 (Adnan Chowdhury 2020-02-11 09:51:40 -0600 58)         pass
+c5ff0816 (Adnan Chowdhury 2020-02-11 09:51:40 -0600 59) 
+c5ff0816 (Adnan Chowdhury 2020-02-11 09:51:40 -0600 60)     def append(self, item):
+c5ff0816 (Adnan Chowdhury 2020-02-11 09:51:40 -0600 61)         pass
+c5ff0816 (Adnan Chowdhury 2020-02-11 09:51:40 -0600 62) 
+c5ff0816 (Adnan Chowdhury 2020-02-11 09:51:40 -0600 63)     def get(self):
+c5ff0816 (Adnan Chowdhury 2020-02-11 09:51:40 -0600 64)         pass
